@@ -1,0 +1,36 @@
+To set up, you need to make sure you have Node and npm installed on your machine.
+
+If you are using OS X or Windows, Node.js can be downloaded from the following website: 
+
+https://nodejs.org/en/download/
+
+Install the version called LTS. 
+
+You can test your installation by running the command:
+
+node -v
+
+The version should be the latest LTS version available. 
+
+After installing Node.js, npm is automatically installed, but you should make sure that you have the latest version by running the command:
+
+npm -v
+
+If the latest version of npm is not installed, run the command: 
+
+npm install npm@latest -g.
+
+Now you should have the latest version of npm.
+
+To see the front end running in our current setup, go into the project directory src and run:
+
+npm install
+
+This will add modules/packages that are needed to run our application. This is based on the package.json file.
+
+Run the command:
+
+ ./node_modules/.bin/nodemon
+
+This starts a server at "http://localhost:3000/" that you can use to see the front end.
+

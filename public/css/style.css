@@ -1,0 +1,13 @@
+body{
+    font-family: sans-serif;
+    background: url(/images/airplane.jpg) no-repeat center center fixed;
+    background-size:cover;
+    margin:0;
+    padding:0;
+}
+
+.container{
+    background-color: rgba(100, 100, 100, 0.5);
+	color:#fff;
+}
+

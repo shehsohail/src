@@ -1,0 +1,21 @@
+body{
+    font-family: sans-serif;
+    background: url(/images/airplane.jpg) no-repeat center center fixed;
+    background-size:cover;
+    margin:0;
+    padding:0;
+}
+
+.jumbotron{
+    background-color: rgba(100, 100, 100, 0.65);
+	color:#fff;
+}
+
+.well{
+    background-color: rgba(100, 100, 100, 0.65);
+    color:#fff;
+}
+
+.nav-tabs > li > a{
+  color: #cccccc;
+}

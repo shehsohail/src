@@ -1,0 +1,146 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+
+<head>
+	<title>Flight Reservation System</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<!-- load fontawesome -->
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+	<script>
+		$(document).ready(function() {
+			var date_input = $('input[name="date"]'); //our date input has the name "date"
+			var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+			date_input.datepicker({
+				format: 'yyyy-mm-dd',
+				container: container,
+				todayHighlight: true,
+				autoclose: true,
+			})
+		})
+	</script>
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Flight Reservation System</a>
+				</div>
+				<ul class="nav navbar-nav">
+          <li><a href="/search">Search Flights</a></li>
+					<li><a href="/login">Login</a></li>
+					<li><a href="/signup">Sign Up</a></li>
+					<li><a href="/account">Account</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+  <% if (typeof flight != 'undefined') { %>
+    <div class="container" style="background-color: #f2f2f3; color: black">
+  		<h3 style="text-align: center">Selected Flight</h3>
+      <table class="table table-responsive table-hover" id="table">
+    		<thead>
+    			<tr>
+						<th>Airline</th>
+            <th>Flight</th>
+  					<th>Date</th>
+  					<th>Origin</th>
+  					<th>Departure Time</th>
+  					<th>Destination</th>
+  					<th>Arrival Time</th>
+            <th># of Passengers</th>
+            <th>Price</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    				<tr>
+							<td><%= flight.AirlineName %></td>
+    					<td><%= flight.AirlineCode + ' ' + flight.FlightNum %></td>
+    					<td><%= flight.FlightDate %></td>
+    					<td><%= flight.Origin %></td>
+    					<td><%= flight.DepartTime %></td>
+    					<td><%= flight.Destination %></td>
+    					<td><%= flight.ArrivalTime %></td>
+              <td><%= passengers %></td>
+              <td><%= '$'+flight.Price %></td>
+    				</tr>
+    		</tbody>
+    	</table>
+    </div>
+  <% } %>
+  <br>
+  <div class="container" style="background-color: #f2f2f3">
+    <form class="form-inline" action="confirmation" method="post">
+
+      <% for (var i = 1; i <= passengers; i++) { %>
+      <h3 style="color: black">Passenger <%= i %></h3>
+      <div class="row">
+        <br>
+        <div class="col-xs-4">
+          <div class="input-group">
+            <span class="input-group-addon">First Name:</span>
+            <input class="form-control" style="max-width: 175px" id="firstname<%=i%>" name="firstname" placeholder="Enter First Name" type="text" required>
+          </div>
+        </div>
+      <div class="col-xs-4" class="div-inline">
+        <div class="input-group">
+          <span class="input-group-addon">Last Name:</span>
+          <input class="form-control" style="max-width: 175px" id="lastname<%=i%>" name="lastname" placeholder="Enter Last Name" type="text" required>
+        </div>
+      </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="input-group">
+            <span class="input-group-addon">Gender:</span>
+            <select class="form-control" style="max-width: 100px" name="gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-4">
+					<div class="input-group">
+						<span class="input-group-addon">Date of Birth</span>
+						<input class="form-control" style="max-width: 125px" id="date<%=i%>" name="date" placeholder="YYYY-MM-DD" type="text" required>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-xs-4" class="div-inline">
+				  <div class="input-group">
+				    <span class="input-group-addon">Seat #:</span>
+				    <select class="form-control" style="max-width: 105px" placeholder="Seat Number" id="SeatNum<%=i%>" name="SeatNum">
+				      <% for (var j = 1; j <= 20; j++) {
+				        if(seat[j]==0){ %>
+									<% if (j == i) { %>
+										<option value="<%= j %>" selected="selected"> <%= j %></option>
+									<% } else { %>
+										<option value="<%= j %>"> <%= j %></option>
+									<% }} else { %>
+										<option value="<%= j %>" disabled="disabled"> <%= j %></option>
+				      <% }} %>
+				    </select>
+				  </div>
+				</div>
+			</div>
+      <br>
+      <% } %>
+      <button type="submit" class="btn btn-primary">Continue</button>
+    </form>
+    <br>
+  </div>
+</body>
+
+</html>

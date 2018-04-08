@@ -1,0 +1,154 @@
+<!-- views/search.ejs -->
+<!doctype html>
+<html>
+
+<head>
+	<title>Flight Reservation System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<!-- load fontawesome -->
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+	<script>
+		$(document).ready(function() {
+			var date_input = $('input[name="date"]'); //our date input has the name "date"
+			var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+			date_input.datepicker({
+				format: 'yyyy-mm-dd',
+				container: container,
+				todayHighlight: true,
+				autoclose: true,
+			})
+		})
+	</script>
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Flight Reservation System</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/search">Search Flights</a></li>
+					<li><a href="/login">Login</a></li>
+					<li><a href="/signup">Sign Up</a></li>
+					<li><a href="/account">Account</a></li? </ul>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<h3 style="text-align: center">Search Flights</h3>
+		<form action="/search" method="post">
+			<div class="row">
+				<br>
+				<div class="col-xs-4">
+					<div class="input-group">
+						<span class="input-group-addon">Origin:</span>
+						<select class="form-control" style="max-width: 200px" placeholder="Airport" name="Origin">
+							<% for (var i = 0; i < airportData.length; i++) { %>
+								<option value="<%= airportData[i].Airport_Code %>"> <%= airportData[i].Airport_Code + ' - '
+									+ airportData[i].City + ', ' + airportData[i].State%>
+								</option>
+							<% } %>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="input-group">
+						<span class="input-group-addon">Destination:</span>
+						<select class="form-control" style="max-width: 200px" placeholder="Airport" name="Destination">
+							<% for (var i = 0; i < airportData.length; i++) { %>
+								<option value="<%= airportData[i].Airport_Code %>"> <%= airportData[i].Airport_Code + ' - '
+									+ airportData[i].City + ', ' + airportData[i].State%>
+								</option>
+							<% } %>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="input-group">
+						<span class="input-group-addon">Departure Date</span>
+						<input class="form-control" style="max-width: 125px" id="DepartDate" name="date" placeholder="YYYY-MM-DD" type="text" required>
+					</div>
+				</div>
+			</div>
+			<br>
+			<!-- <div class="bootstrap-iso"> -->
+			<div class="row">
+				<div class="col-xs-4" class="div-inline">
+					<div class="input-group">
+						<span class="input-group-addon">Passengers:</span>
+						<select class="form-control" style="max-width: 50px" name="Passengers">
+										<option value="1"> 1 </option>
+										<option value="2"> 2 </option>
+										<option value="3"> 3 </option>
+										<option value="4"> 4 </option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<br>
+			<button type="submit" class="btn btn-primary">Find Flights</button>
+		</form>
+		<br>
+		<% if (typeof message != 'undefined') { %>
+				<div class="alert alert-danger text-center"><%= message %></div>
+		<% } %>
+		<% if (typeof duplicatesFound != 'undefined' && duplicatesFound) { %>
+				<div class="alert alert-danger text-center">Please do not select duplicate seats.</div>
+		<% } %>
+	</div>
+
+	<% if (typeof flights != 'undefined') { %>
+	<div class="container">
+		<form action="passengers" method="post">
+		<table class="table table-responsive " id="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Airline</th>
+					<th>Flight</th>
+					<th>Date</th>
+					<th>Origin</th>
+					<th>Departure Time</th>
+					<th>Destination</th>
+					<th>Arrival Time</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% var i = 0;
+					flights.forEach(function (flight) { %>
+					<tr>
+						<td>
+	            <input type="radio" id="<%= i %>" name="optradio" value="<%= i %>"></label>
+						</td>
+						<td><%= flight.AirlineName %></td>
+						<td><%= flight.AirlineCode + ' ' + flight.FlightNum %></td>
+						<td><%= flight.FlightDate %></td>
+						<td><%= flight.Origin %></td>
+						<td><%= flight.DepartTime %></td>
+						<td><%= flight.Destination %></td>
+						<td><%= flight.ArrivalTime %></td>
+						<td><%= '$' + flight.Price %></td>
+					</tr>
+				<% i++; })} %>
+			</tbody>
+		</table>
+		<div class="text-center">
+			<% if( typeof flights != 'undefined') { %>
+				<button type="submit" class="btn btn-default btn-block">Next</button>
+			<% } %>
+		</div>
+		<br>
+	</form>
+	</div>
+	<br>
+</body>

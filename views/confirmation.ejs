@@ -1,0 +1,107 @@
+<!-- views/confirmation.ejs -->
+<!doctype html>
+<html>
+
+<head>
+	<title>Flight Reservation System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<!-- load fontawesome -->
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Flight Reservation System</a>
+				</div>
+				<ul class="nav navbar-nav">
+          <li><a href="/search">Search Flights</a></li>
+					<li><a href="/login">Login</a></li>
+					<li><a href="/signup">Sign Up</a></li>
+					<li><a href="/account">Account</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container well">
+		<h3 style="text-align: center">Review and Place Your Order</h3>
+	</div>
+
+	<% if (typeof flight != 'undefined') { %>
+    <div class="container" style="background-color: #f2f2f3; color: black">
+  		<h3 style="text-align: center">Selected Flight</h3>
+      <table class="table table-responsive table-hover" id="table">
+    		<thead>
+    			<tr>
+						<th>Airline</th>
+            <th>Flight</th>
+  					<th>Date</th>
+  					<th>Origin</th>
+  					<th>Departure Time</th>
+  					<th>Destination</th>
+  					<th>Arrival Time</th>
+            <th># of Passengers</th>
+            <th>Price</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    				<tr>
+							<td><%= flight.AirlineName %></td>
+    					<td><%= flight.AirlineCode + ' ' + flight.FlightNum %></td>
+    					<td><%= flight.FlightDate %></td>
+    					<td><%= flight.Origin %></td>
+    					<td><%= flight.DepartTime %></td>
+    					<td><%= flight.Destination %></td>
+    					<td><%= flight.ArrivalTime %></td>
+              <td><%= passengers %></td>
+              <td><%= '$'+flight.Price %></td>
+    				</tr>
+    		</tbody>
+    	</table>
+    </div>
+  <% } %>
+  <br>
+	<% if (typeof flight != 'undefined') { %>
+	<div class="container" style="background-color: #f2f2f3">
+    <form class="form-inline" action="submitted" method="post">
+			<% for (var i = 0; i < passengers; i++) { %>
+	      	<h3 style="color: black">Passenger <%= i+1 %></h3>
+		      <div class="row">
+		        <br>
+		        <div class="col-xs-4">
+		            <span>First Name: <%= passengersInfo.firstname[i] %></span>
+		        </div>
+		      <div class="col-xs-4" class="div-inline">
+		          <span>Last Name: <%= passengersInfo.lastname[i] %></span>
+		      </div>
+		      </div>
+		      <br>
+		      <div class="row">
+		        <div class="col-xs-4">
+		            <span>Gender: <%= passengersInfo.gender[i] %></span>
+		        </div>
+		        <div class="col-xs-4">
+								<span>Date of Birth: <%= passengersInfo.date[i] %></span>
+						</div>
+					</div>
+						<br>
+					<div class="row">
+						<div class="col-xs-4" class="div-inline">
+						    <span>Seat #: <%= passengersInfo.SeatNum[i] %></span>
+						</div>
+		      </div>
+	      	<hr style="border-color: black">
+	      <% } %>
+      <button type="submit" class="btn btn-primary">Submit Order</button>
+    </form>
+    <br>
+  </div>
+	<% } %>
+</body>
+
+</html>
